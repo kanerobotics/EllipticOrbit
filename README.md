@@ -9,4 +9,18 @@ var planet1 = new EllipticOrbit('planet1',200,77,20,0,0,0);
 planet1.start();
 ```
 
-## Using in the browser
+#### Options
+`EllipticOrbit()` takes the following options:
+
+```javascript
+// Initialize Variables
+divId               //Div Identifier
+semiMajorAxis       //Long Axis of Ellipse
+semiMinorAxis       //Short Axis of Ellipse
+xOffset             // x offset of planet from orbital path
+yOffset             // y offset of planet from orbital path
+tiltAngle           //Orbit Tilt
+degree              //where planet starts on orbital path
+```
+
+
