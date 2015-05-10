@@ -13,7 +13,6 @@ planet1.start();
 `EllipticOrbit()` takes the following options:
 
 ```javascript
-// Initialize Variables
 divId               //Div Identifier
 semiMajorAxis       //Long Axis of Ellipse
 semiMinorAxis       //Short Axis of Ellipse
