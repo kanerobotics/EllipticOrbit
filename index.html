@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+        #atomic{
+            position:absolute;
+            top:100px;
+            left:100px;
+            width:400px;
+            height:394px;
+            background: url(images/atomic.png) 0px 0px no-repeat;
+        }
+        #container{
+            position:absolute;
+            top:250px;
+            left:280px;
+        }
+        .planet{
+            position:relative;
+            width:135px;
+            height:100px;
+            background: url(images/earth.png) 0px 24px no-repeat;
+        }
+    </style>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script>
+
+        $(function(){
+   
+            //Using Paul Irish's Request Animation Frame Algorithm
+            var lastTime = 0;
+            var vendors = ['webkit', 'moz'];
+            for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                window.cancelAnimationFrame =
+                        window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+            }
+
+            if (!window.requestAnimationFrame)
+                window.requestAnimationFrame = function(callback, element) {
+                    var currTime = new Date().getTime();
+                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                            timeToCall);
+                    lastTime = currTime + timeToCall;
+                    return id;
+                };
+
+            if (!window.cancelAnimationFrame)
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+
+            //Instantiate Planet with Orbit
+            function EllipticOrbit(divId,semiMajorAxis,semiMinorAxis,xOffset,yOffset,tiltAngle,degrees){
+
+                // Initialize Variables
+                this.element = $('#'+divId);                //Div Identifier
+                this.semiMajorAxis = semiMajorAxis;         //Long Axis of Ellipse
+                this.semiMinorAxis = semiMinorAxis;         //Short Axis of Ellipse
+                this.xOffset = xOffset;                     //Displace planet X amount off of orbital path
+                this.yOffset = yOffset;                     //Displace planet Y amount off of orbital path
+                this.tiltRad = tiltAngle*Math.PI/180;       //Orbit Tilt
+                this.degrees = degrees;                     //Where planet starts in orbit
+            }
+
+
+            EllipticOrbit.prototype.startOrbit = function(){
+
+                // Elliptic Motion Engine
+                radians=this.degrees*Math.PI/180;
+                cosTilt = Math.cos(this.tiltRad);
+                sinTilt = Math.sin(this.tiltRad);
+
+                x = this.xOffset + this.semiMajorAxis * Math.cos(radians);
+                y = this.yOffset + this.semiMinorAxis * Math.sin(radians);
+
+                // Rotate full orbit path
+                newX = x * cosTilt - y * sinTilt;
+                newY = y * cosTilt + x * sinTilt;
+                this.element.css({'transform':'translate3d('+newX+'px, '+newY+'px, 0px)'});
+
+                this.degrees+=1;
+
+                this.start();
+            }
+
+
+            EllipticOrbit.prototype.start = function(){
+                var t = this;
+                requestAnimationFrame( function(){t.startOrbit();} );
+            }
+
+
+            //Instantiate Objects
+            var planet1 = new EllipticOrbit('planet1',200,77,0,0,0,0);
+            planet1.start();
+
+            var planet2 = new EllipticOrbit('planet2',200,77,-70,-70,45,90);
+            planet2.start();
+
+            var planet3 = new EllipticOrbit('planet3',200,77,135,-135,-45,180);
+            planet3.start();
+    });
+
+    </script>
+
+</head><body>
+    <div id="atomic"></div>
+    <div id="container">
+        <div class="planet" id="planet1"></div>
+        <div class="planet" id="planet2"></div>
+        <div class="planet" id="planet3"></div>
+    </div>
+
+</body></html>

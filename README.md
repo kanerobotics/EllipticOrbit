@@ -22,4 +22,6 @@ tiltAngle           //Orbit Tilt
 degree              //where planet starts on orbital path
 ```
 
+#### Credit
+[requestAnimationFrame algorithm](http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/) created by Paul Irish
 
