@@ -24,11 +24,14 @@
         }
     </style>
 
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-
+</head><body>
+    <div id="atomic"></div>
+    <div id="container">
+        <div class="planet" id="planet1"></div>
+        <div class="planet" id="planet2"></div>
+        <div class="planet" id="planet3"></div>
+    </div>
     <script>
-
-        $(function(){
    
             //Using Paul Irish's Request Animation Frame Algorithm
             var lastTime = 0;
@@ -58,7 +61,8 @@
             function EllipticOrbit(divId,semiMajorAxis,semiMinorAxis,xOffset,yOffset,tiltAngle,degrees){
 
                 // Initialize Variables
-                this.element = $('#'+divId);                //Div Identifier
+                //this.element = $('#'+divId);                //Div Identifier
+                this.element = document.getElementById(divId)
                 this.semiMajorAxis = semiMajorAxis;         //Long Axis of Ellipse
                 this.semiMinorAxis = semiMinorAxis;         //Short Axis of Ellipse
                 this.xOffset = xOffset;                     //Displace planet X amount off of orbital path
@@ -81,7 +85,8 @@
                 // Rotate full orbit path
                 newX = x * cosTilt - y * sinTilt;
                 newY = y * cosTilt + x * sinTilt;
-                this.element.css({'transform':'translate3d('+newX+'px, '+newY+'px, 0px)'});
+                this.element.style.transform='translate3d('+newX+'px, '+newY+'px, 0px)';
+
 
                 this.degrees+=1;
 
@@ -104,16 +109,9 @@
 
             var planet3 = new EllipticOrbit('planet3',200,77,135,-135,-45,180);
             planet3.start();
-    });
+
 
     </script>
 
-</head><body>
-    <div id="atomic"></div>
-    <div id="container">
-        <div class="planet" id="planet1"></div>
-        <div class="planet" id="planet2"></div>
-        <div class="planet" id="planet3"></div>
-    </div>
 
 </body></html>
